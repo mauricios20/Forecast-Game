@@ -8,7 +8,7 @@ import numpy as np
 tsla = yf.Ticker("TSLA")
 
 # get historical market data
-hist = tsla.history(period="5d")
+hist = tsla.history(start="2022-01-18", end="2022-01-23")
 print(hist['Close'])
 
 ave = round(hist['Close'].mean(), 2)
@@ -65,24 +65,32 @@ maxlow = low+(low*.05)
 list = []
 for value in data['Q4']:
     if minave <= value <= maxave:
-        print(value, 'ave prediction is present in the range.')
+        # print(value, 'ave prediction is present in the range.')
         list.append(3)
     else:
-        print(value, 'ave prediction is not present in the range.')
+        # print(value, 'ave prediction is not present in the range.')
         list.append(0)
-
+list1 = []
 for value in data['Q5']:
     if minhigh <= value <= maxhigh:
-        print(value, 'high prediction is present in the range.')
+        # print(value, 'high prediction is present in the range.')
+        list1.append(2)
     else:
-        print(value, 'high prediction is not present in the range.')
+        # print(value, 'high prediction is not present in the range.')
+        list1.append(0)
 
+list2 = []
 for value in data['Q6']:
     if minlow <= value <= maxlow:
-        print(value, 'low prediction is present in the range.')
+        # print(value, 'low prediction is present in the range.')
+        list2.append(2)
     else:
-        print(value, 'low prediction is not present in the range.')
+        # print(value, 'low prediction is not present in the range.')
+        list2.append(0)
 
 print(len(list))
 data['Ave Score'] = list
+data['High Score'] = list1
+data['Low Score'] = list2
+data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
 print(data)
