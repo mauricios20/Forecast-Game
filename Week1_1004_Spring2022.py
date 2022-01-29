@@ -8,7 +8,7 @@ import numpy as np
 tsla = yf.Ticker("TSLA")
 
 # get historical market data
-hist = tsla.history(start="2022-01-18", end="2022-01-23")
+hist = tsla.history(start="2022-01-24", end="2022-01-29")
 print(hist['Close'])
 
 ave = round(hist['Close'].mean(), 2)
@@ -21,10 +21,10 @@ print('Average: {0:}, High: {1:}, Low: {2:}'.format(ave, high, low))
 path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game/Section 1004'
 os.chdir(path)
 
-Generaldata = pd.read_csv('Week 1 - Introduction_January 23, 2022_16.35.csv', header=0)
+Generaldata = pd.read_csv('Week 1_1004.csv', header=0)
 data = Generaldata[['QID1_6', 'Q4', 'Q5', 'Q6']]
 data = data.drop([0, 1])
-data = data.dropna()
+# data = data.dropna()
 print(data.info())
 
 data['Q4'] = data['Q4'].str.replace(r"[a-zA-Z$,]",'')
@@ -40,12 +40,15 @@ data['Q6'] = data['Q6'].astype(float)
 #  #################### Assign Points  ####################################
 minave = ave-(ave*.05)
 maxave = ave+(ave*.05)
+print(ave*0.05)
 
 minhigh = high-(high*.05)
 maxhigh = high+(high*.05)
+print(high*0.05)
 
 minlow = low-(low*.05)
 maxlow = low+(low*.05)
+print(low*0.05)
 
 
 
@@ -94,3 +97,4 @@ data['High Score'] = list1
 data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
 print(data)
+data.to_csv('Results_Week1.csv', index=False)
