@@ -1,14 +1,14 @@
 import yfinance as yf
 import os
 import pandas as pd
-import numpy as np
+
 
 
 #  #################### Import Tesla Stock Info ############################
 tsla = yf.Ticker("TSLA")
 
 # get historical market data
-hist = tsla.history(start="2022-01-24", end="2022-01-29")
+hist = tsla.history(start="2022-01-31", end="2022-02-05")
 print(hist['Close'])
 
 ave = round(hist['Close'].mean(), 2)
@@ -21,22 +21,40 @@ print('Average: {0:}, High: {1:}, Low: {2:}'.format(ave, high, low))
 path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game/Section 1003'
 os.chdir(path)
 
-Generaldata = pd.read_csv('Week 1_1003.csv', header=0)
-data = Generaldata[['QID1_6', 'Q4', 'Q5', 'Q6']]
-data = data.drop([0, 1])
-# data = data.dropna()
+Generaldata = pd.read_csv('Week 2_1003.csv', header=0)
+data1 = Generaldata[['Q8_1', 'Q4', 'Q5', 'Q6']]
+data1 = data1.drop([0, 1])
+data1 = data1.dropna()
+
+
+data1['Q4'] = data1['Q4'].str.replace(r"[a-zA-Z$,]",'')
+data1['Q4'] = data1['Q4'].astype(float)
+
+data1['Q5'] = data1['Q5'].str.replace(r"[a-zA-Z$,]",'')
+data1['Q5'] = data1['Q5'].astype(float)
+
+data1['Q6'] = data1['Q6'].str.replace(r"[a-zA-Z$,]",'')
+data1['Q6'] = data1['Q6'].astype(float)
+data1.rename(columns={"Q8_1": "Username", "Q4": "Average", "Q5": "High", "Q6": "Low"}, inplace=True)
+
+
+gmakedtf = pd.read_csv('Week 2_Makeup.csv', header=0)
+data2 = gmakedtf[['QID1_6', 'Q4', 'Q5', 'Q6']]
+data2 = data2.drop([0, 1])
+data2 = data2.dropna()
+
+data2['Q4'] = data2['Q4'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q4'] = data2['Q4'].astype(float)
+
+data2['Q5'] = data2['Q5'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q5'] = data2['Q5'].astype(float)
+
+data2['Q6'] = data2['Q6'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q6'] = data2['Q6'].astype(float)
+
+data2.rename(columns={"QID1_6": "Username", "Q4": "Average", "Q5":"High", "Q6":"Low"}, inplace=True)
+data = pd.concat([data1, data2]).drop_duplicates(subset=['Username'])
 print(data.info())
-
-data['Q4'] = data['Q4'].str.replace(r"[a-zA-Z$,]",'')
-data['Q4'] = data['Q4'].astype(float)
-
-data['Q5'] = data['Q5'].str.replace(r"[a-zA-Z$,]",'')
-data['Q5'] = data['Q5'].astype(float)
-
-data['Q6'] = data['Q6'].str.replace(r"[a-zA-Z$,]",'')
-data['Q6'] = data['Q6'].astype(float)
-data.rename(columns={"QID1_6": "Username", "Q4": "Average", "Q5":"High", "Q6":"Low"}, inplace=True)
-
 #  #################### Assign Points  ####################################
 minave = ave-(ave*.05)
 maxave = ave+(ave*.05)
@@ -95,4 +113,4 @@ data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
 sorteddata = data.sort_values(by='Total', ascending=False)
 print(sorteddata)
-sorteddata.to_csv('Results_Week1.csv', index=False)
+sorteddata.to_csv('Results_Week2.csv', index=False)

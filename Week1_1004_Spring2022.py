@@ -35,7 +35,7 @@ data['Q5'] = data['Q5'].astype(float)
 
 data['Q6'] = data['Q6'].str.replace(r"[a-zA-Z$,]",'')
 data['Q6'] = data['Q6'].astype(float)
-
+data.rename(columns={"QID1_6": "Username", "Q4": "Average", "Q5":"High", "Q6":"Low"}, inplace=True)
 
 #  #################### Assign Points  ####################################
 minave = ave-(ave*.05)
@@ -66,7 +66,7 @@ print(low*0.05)
 
 
 list = []
-for value in data['Q4']:
+for value in data['Average']:
     if minave <= value <= maxave:
         # print(value, 'ave prediction is present in the range.')
         list.append(3)
@@ -74,7 +74,7 @@ for value in data['Q4']:
         # print(value, 'ave prediction is not present in the range.')
         list.append(0)
 list1 = []
-for value in data['Q5']:
+for value in data['High']:
     if minhigh <= value <= maxhigh:
         # print(value, 'high prediction is present in the range.')
         list1.append(2)
@@ -83,7 +83,7 @@ for value in data['Q5']:
         list1.append(0)
 
 list2 = []
-for value in data['Q6']:
+for value in data['Low']:
     if minlow <= value <= maxlow:
         # print(value, 'low prediction is present in the range.')
         list2.append(2)
@@ -96,5 +96,6 @@ data['Ave Score'] = list
 data['High Score'] = list1
 data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
-print(data)
-data.to_csv('Results_Week1.csv', index=False)
+sorteddata = data.sort_values(by='Total', ascending=False)
+print(sorteddata)
+sorteddata.to_csv('Results_Week1.csv', index=False)

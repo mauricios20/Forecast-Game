@@ -18,13 +18,13 @@ low = round(hist['Close'].min(), 2)
 print('Average: {0:}, High: {1:}, Low: {2:}'.format(ave, high, low))
 
 #  #################### Read and Clean Data ################################
-path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game/Section 1003'
+path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game/Section 1004'
 os.chdir(path)
 
-Generaldata = pd.read_csv('Week 1_1003.csv', header=0)
-data = Generaldata[['QID1_6', 'Q4', 'Q5', 'Q6']]
+Generaldata = pd.read_csv('Week 2_1004.csv', header=0)
+data = Generaldata[['Q8_1', 'Q4', 'Q5', 'Q6']]
 data = data.drop([0, 1])
-# data = data.dropna()
+data = data.dropna()
 print(data.info())
 
 data['Q4'] = data['Q4'].str.replace(r"[a-zA-Z$,]",'')
@@ -35,17 +35,20 @@ data['Q5'] = data['Q5'].astype(float)
 
 data['Q6'] = data['Q6'].str.replace(r"[a-zA-Z$,]",'')
 data['Q6'] = data['Q6'].astype(float)
-data.rename(columns={"QID1_6": "Username", "Q4": "Average", "Q5":"High", "Q6":"Low"}, inplace=True)
+data.rename(columns={"Q8_1": "Username", "Q4": "Average", "Q5": "High", "Q6": "Low"}, inplace=True)
 
 #  #################### Assign Points  ####################################
 minave = ave-(ave*.05)
 maxave = ave+(ave*.05)
+print(ave*0.05)
 
 minhigh = high-(high*.05)
 maxhigh = high+(high*.05)
+print(high*0.05)
 
 minlow = low-(low*.05)
 maxlow = low+(low*.05)
+print(low*0.05)
 
 
 
@@ -95,4 +98,4 @@ data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
 sorteddata = data.sort_values(by='Total', ascending=False)
 print(sorteddata)
-sorteddata.to_csv('Results_Week1.csv', index=False)
+sorteddata.to_csv('Results_Week2.csv', index=False)
