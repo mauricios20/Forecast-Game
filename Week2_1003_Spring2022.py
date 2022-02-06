@@ -105,12 +105,37 @@ for value in data['Low']:
     else:
         # print(value, 'low prediction is not present in the range.')
         list2.append(0)
+lt = []
+for value in data['Average']:
+    diffa = round(value-ave, 0)
+    lt.append(diffa)
 
+
+lt1 = []
+for value in data['High']:
+    diffh = round(value-high, 0)
+    lt1.append(diffh)
+
+
+lt2 = []
+for value in data['Low']:
+    diffl = round(value-low, 0)
+    lt2.append(diffl)
+
+#
+# print(len(lt))
 print(len(list))
 data['Ave Score'] = list
 data['High Score'] = list1
 data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
+
+data['Ave Accuracy'] = lt
+data['High Accuracy'] = lt1
+data['Low Accuracy'] = lt2
+data['Overall Accuracy'] = data['Ave Accuracy']+data['High Accuracy']+data['Low Accuracy']
+data['Absolute Value'] = abs(data['Overall Accuracy'])
+data['Week'] = 'Week 2'
 sorteddata = data.sort_values(by='Total', ascending=False)
 print(sorteddata)
 sorteddata.to_csv('Results_Week2.csv', index=False)
