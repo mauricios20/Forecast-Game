@@ -24,7 +24,7 @@ os.chdir(path)
 Generaldata = pd.read_csv('Week 1_1003.csv', header=0)
 data = Generaldata[['QID1_6', 'Q4', 'Q5', 'Q6']]
 data = data.drop([0, 1])
-# data = data.dropna()
+data = data.dropna()
 print(data.info())
 
 data['Q4'] = data['Q4'].str.replace(r"[a-zA-Z$,]",'')
