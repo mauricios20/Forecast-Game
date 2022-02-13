@@ -8,7 +8,7 @@ import numpy as np
 tsla = yf.Ticker("TSLA")
 
 # get historical market data
-hist = tsla.history(start="2022-01-24", end="2022-01-29")
+hist = tsla.history(start="2022-02-07", end="2022-02-12")
 print(hist['Close'])
 
 ave = round(hist['Close'].mean(), 2)
@@ -21,7 +21,7 @@ print('Average: {0:}, High: {1:}, Low: {2:}'.format(ave, high, low))
 path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game/Section 1004'
 os.chdir(path)
 
-Generaldata = pd.read_csv('Week 2_1004.csv', header=0)
+Generaldata = pd.read_csv('Week 3_1004.csv', header=0)
 data = Generaldata[['Q8_1', 'Q4', 'Q5', 'Q6']]
 data = data.drop([0, 1])
 data = data.dropna()
@@ -37,6 +37,24 @@ data['Q6'] = data['Q6'].str.replace(r"[a-zA-Z$,]",'')
 data['Q6'] = data['Q6'].astype(float)
 data.rename(columns={"Q8_1": "Username", "Q4": "Average", "Q5": "High", "Q6": "Low"}, inplace=True)
 
+gmakedtf = pd.read_csv('Week 3_Makeup.csv', header=0)
+data2 = gmakedtf[['QID1_6', 'Q4', 'Q5', 'Q6']]
+data2 = data2.drop([0, 1])
+data2 = data2.dropna()
+
+data2['Q4'] = data2['Q4'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q4'] = data2['Q4'].astype(float)
+
+data2['Q5'] = data2['Q5'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q5'] = data2['Q5'].astype(float)
+
+data2['Q6'] = data2['Q6'].str.replace(r"[a-zA-Z$,]",'')
+data2['Q6'] = data2['Q6'].astype(float)
+
+data2.rename(columns={"QID1_6": "Username", "Q4": "Average", "Q5":"High", "Q6":"Low"}, inplace=True)
+data = pd.concat([data, data2]).drop_duplicates(subset=['Username'])
+
+print(data.info())
 #  #################### Assign Points  ####################################
 minave = ave-(ave*.05)
 maxave = ave+(ave*.05)
@@ -115,12 +133,14 @@ data['High Score'] = list1
 data['Low Score'] = list2
 data['Total'] = data['Ave Score']+data['High Score']+data['Low Score']
 
+# ######## CHANGE WEEK 3 ##########
+
 data['Ave Accuracy'] = lt
 data['High Accuracy'] = lt1
 data['Low Accuracy'] = lt2
 data['Overall Accuracy'] = data['Ave Accuracy']+data['High Accuracy']+data['Low Accuracy']
 data['Absolute Value'] = abs(data['Overall Accuracy'])
-data['Week'] = 'Week 2'
+data['Week'] = 'Week 3'
 sorteddata = data.sort_values(by='Total', ascending=False)
 print(sorteddata)
-sorteddata.to_csv('Results_Week2.csv', index=False)
+sorteddata.to_csv('Results_Week3_1004.csv', index=False)

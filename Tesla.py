@@ -28,7 +28,19 @@ print('Week 2 - Average: {0:}, High: {1:}, Low: {2:}'.format(ave2, high2, low2))
 lst = [['High', high, high2], ['Average', ave, ave2],
        ['Low', low, low2]]
 
-tesladtf = pd.DataFrame(lst, columns=['Value', 'Week 1', 'Week 2'])
+####### Week 3 #######
+
+hist = tsla.history(start="2022-02-07", end="2022-02-12")
+print(hist['Close'])
+
+ave3 = round(hist['Close'].mean(), 2)
+high3 = round(hist['Close'].max(), 2)
+low3 = round(hist['Close'].min(), 2)
+print('Week 3 - Average: {0:}, High: {1:}, Low: {2:}'.format(ave3, high3, low3))
+#  #################### Read and Clean Data ################################
+lst = [['High', high, high2, high3], ['Average', ave, ave2, ave3],
+       ['Low', low, low2, low3]]
+tesladtf = pd.DataFrame(lst, columns=['Value', 'Week 1', 'Week 2', 'Week 3'])
 print(tesladtf)
 
 path = '/Users/mau/Dropbox/Mac/Documents/Econ 103/Spring 2022/Forecast Game'
